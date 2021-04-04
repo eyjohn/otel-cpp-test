@@ -4,6 +4,7 @@ project(example)
 
 set(CMAKE_CXX_STANDARD 17)
 
+find_package(Threads)
 find_package(opentelemetry-cpp)
 
 add_subdirectory(src)
