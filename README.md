@@ -1,3 +1,3 @@
-# example-cpp
+# otel-cpp-test
 
-A basic C++ example application and library to use as boilerplate.
+A repo to test OpenTelemetry-cpp API.
