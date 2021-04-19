@@ -7,23 +7,24 @@
 
 #include <chrono>
 #include <iostream>
+#include <memory>
 
 namespace {
 void initTracer()
 {
     auto exporter = std::unique_ptr<sdktrace::SpanExporter>(
         new opentelemetry::exporter::trace::OStreamSpanExporter);
-    auto processor = std::shared_ptr<sdktrace::SpanProcessor>(
+    auto processor = std::unique_ptr<sdktrace::SpanProcessor>(
         new sdktrace::SimpleSpanProcessor(std::move(exporter)));
     auto provider = nostd::shared_ptr<opentelemetry::trace::TracerProvider>(
-        new sdktrace::TracerProvider(processor, opentelemetry::sdk::resource::Resource::Create({}),
-            std::make_shared<opentelemetry::sdk::trace::AlwaysOnSampler>()));
-
+        new sdktrace::TracerProvider(std::move(processor),
+            opentelemetry::sdk::resource::Resource::Create({}),
+            std::unique_ptr<sdktrace::Sampler>(new sdktrace::AlwaysOnSampler())));
     // Set the global trace provider
     opentelemetry::trace::Provider::SetTracerProvider(provider);
 }
 
-auto get_tracer()
+opentelemetry::nostd::shared_ptr<opentelemetry::trace::Tracer> get_tracer()
 {
     return opentelemetry::trace::Provider::GetTracerProvider()->GetTracer("main");
 }
