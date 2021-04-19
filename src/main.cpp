@@ -23,7 +23,7 @@ void initTracer()
     opentelemetry::trace::Provider::SetTracerProvider(provider);
 }
 
-auto get_tracer()
+opentelemetry::nostd::shared_ptr<TracerProvider> get_tracer()
 {
     return opentelemetry::trace::Provider::GetTracerProvider()->GetTracer("main");
 }
