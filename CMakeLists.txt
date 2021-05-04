@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 cmake_policy(SET CMP0074 NEW)
 
-project(example)
+project(otel-cpp-test)
 
 set(CMAKE_CXX_STANDARD 17)
 
